@@ -2,6 +2,8 @@
 
 class UM_Builtin {
 
+	public $predefined_fields = array();
+
 	function __construct() {
 
 		add_action('init',  array(&$this, 'set_core_fields'), 1);
@@ -133,6 +135,22 @@ class UM_Builtin {
 				'name' => 'Text Box',
 				'col1' => array('_title','_metakey','_help','_default','_min_chars','_visibility'),
 				'col2' => array('_label','_placeholder','_public','_roles','_validate','_custom_validate','_max_chars'),
+				'col3' => array('_required','_editable','_icon'),
+				'validate' => array(
+					'_title' => array(
+						'mode' => 'required',
+						'error' => __('You must provide a title','ultimatemember')
+					),
+					'_metakey' => array(
+						'mode' => 'unique',
+					),
+				)
+			),
+			
+			'number' => array(
+				'name' => __('Number','ultimatemember'),
+				'col1' => array('_title','_metakey','_help','_default','_min','_visibility'),
+				'col2' => array('_label','_placeholder','_public','_roles','_validate','_custom_validate','_max'),
 				'col3' => array('_required','_editable','_icon'),
 				'validate' => array(
 					'_title' => array(
@@ -522,11 +540,13 @@ class UM_Builtin {
 	
 		global $ultimatemember;
 		
-		if ( class_exists('UM_Query') ) {
-			$um_roles = $ultimatemember->query->get_roles( false, array('admin') );
+		if ( !isset( $ultimatemember->query ) || ! method_exists( $ultimatemember->query, 'get_roles' ) ) {
+			return;
 		} else {
-			$um_roles = array();
+			//die('Method loaded!');
 		}
+		
+		$um_roles = $ultimatemember->query->get_roles( false, array('admin') );
 		
 		$profile_privacy = apply_filters('um_profile_privacy_options', array( __('Everyone','ultimatemember'), __('Only me','ultimatemember') ) );
 		
@@ -590,6 +610,16 @@ class UM_Builtin {
 				'editable' => 1,
 			),
 			
+			'nickname' => array(
+				'title' => __('Nickname','ultimatemember'),
+				'metakey' => 'nickname',
+				'type' => 'text',
+				'label' => __('Nickname','ultimatemember'),
+				'required' => 0,
+				'public' => 1,
+				'editable' => 1,
+			),
+
 			'user_registered' => array(
 				'title' => __('Registration Date','ultimatemember'),
 				'metakey' => 'user_registered',
@@ -610,16 +640,6 @@ class UM_Builtin {
 				'public' => 1,
 				'editable' => 1,
 				'edit_forbidden' => 1,
-			),
-			
-			'display_name' => array(
-				'title' => __('Display Name','ultimatemember'),
-				'metakey' => 'display_name',
-				'type' => 'text',
-				'label' => __('Display Name','ultimatemember'),
-				'required' => 0,
-				'public' => 1,
-				'editable' => 1,
 			),
 			
 			'user_email' => array(
@@ -822,6 +842,24 @@ class UM_Builtin {
 				'advanced' => 'social',
 				'color' => '#f50',
 				'match' => 'https://soundcloud.com/',
+			),
+
+			'vk' => array(
+				'title' => __('VKontakte','ultimatemember'),
+				'metakey' => 'vkontakte',
+				'type' => 'url',
+				'label' => __('VKontakte','ultimatemember'),
+				'required' => 0,
+				'public' => 1,
+				'editable' => 1,
+				'url_target' => '_blank',
+				'url_rel' => 'nofollow',
+				'icon' => 'um-faicon-vk',
+				'validate' => 'vk_url',
+				'url_text' => 'VKontakte',
+				'advanced' => 'social',
+				'color' => '#2B587A',
+				'match' => 'https://vk.com/',
 			),
 			
 			'role_select' => array(
@@ -1030,6 +1068,7 @@ class UM_Builtin {
 		global $ultimatemember;
 		
 		$fields_without_metakey = array('block','shortcode','spacing','divider','group');
+		remove_filter('um_fields_without_metakey', 'um_user_tags_requires_no_metakey');
 		$fields_without_metakey = apply_filters('um_fields_without_metakey', $fields_without_metakey );
 		
 		if ( !$show_all ) {
@@ -1097,6 +1136,7 @@ class UM_Builtin {
 		$array['google_url'] = __('Google+ URL','ultimatemember');
 		$array['instagram_url'] = __('Instagram URL','ultimatemember');
 		$array['linkedin_url'] = __('LinkedIn URL','ultimatemember');
+		$array['vk_url'] = __('VKontakte URL','ultimatemember');
 		$array['lowercase'] = __('Lowercase only','ultimatemember');
 		$array['numeric'] = __('Numeric value only','ultimatemember');
 		$array['phone_number'] = __('Phone Number','ultimatemember');

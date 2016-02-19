@@ -1,13 +1,13 @@
 === Ultimate Member ===
 Author URI: https://ultimatemember.com/
 Plugin URI: https://ultimatemember.com/
-Contributors: ultimatemember
+Contributors: ultimatemember, champsupertramp
 Donate link: 
 Tags: access control, author, authors, author profile, comments, community, communities, conditional fields, conditional logic, conditional menus, content protection, custom fields, file uploads, form builder, front-end login, front-end registration, gravatar, hide wp-admin, login, login page, logged-in users, mandrill, member, members, membership, member directory, online users, profile, profiles, profile builder, registration, restriction, restrict content, role creation, role menus, search filters, sign in, sign up, social network, star ratings, toolbar, user, users, user fields, user profile, user-profile, user profiles, user roles
 Requires at least: 4.1
-Tested up to: 4.3
+Tested up to: 4.4
 
-Stable Tag: 1.3.29
+Stable Tag: 1.3.37
 
 License: GNU Version 2 or Any Later Version
 
@@ -37,7 +37,6 @@ Ultimate Member is a powerful and flexible plugin that makes it a breeze for use
 * Developer friendly with dozens of actions and filters
 * Multi-site compatibility
 * Mandrill compatibility
-* WPML Support
 
 Read about all of the plugin's features at [Ultimate Member](https://ultimatemember.com)
 
@@ -45,6 +44,8 @@ Read about all of the plugin's features at [Ultimate Member](https://ultimatemem
 
 Ultimate Member has a range of extensions that allow you to extend the power of the plugin
 
+* [Instagram](https://ultimatemember.com/extensions/instagram/) - Allow users to show their Instagram photos on their profile
+* [User Tags](https://ultimatemember.com/extensions/user-tags/) - Lets you add a user tag system to your website
 * [Social Activity](https://ultimatemember.com/extensions/social-activity/) - Let users create public wall posts & see the activity of other users
 * [WooCommerce](https://ultimatemember.com/extensions/woocommerce/) - Allow you to integrate WooCommerce with Ultimate Member
 * [Private Messages](https://ultimatemember.com/extensions/private-messages/) - Add a private messaging system to your site & allow users to message each other
@@ -91,6 +92,8 @@ Ultimate Member has been translated into the following languages:
 * Polish - Polski
 * Czech
 * Greek
+* Indonesian
+* Simplified Chinese
 * Russian - Русский
 * Turkish - Türkçe
 * Farsi - فارسى
@@ -145,6 +148,117 @@ The plugin works with popular caching plugins by automatically excluding Ultimat
 16. Screenshot 16
 
 == Changelog ==
+
+= 1.3.37: February 17, 2016 =
+
+* New: Add password confirmation validation
+* New: Add VK url validation
+* New: Add Vkontakte as predefined url field
+* New: Add additional file types
+* New: Add file size limit label in image field
+* New: Added password reset limit
+* New: Allow redirect_to param after registration
+* New: Indonesian language support added
+* New: Add bio characters limit
+* Tweak: Use native WP masonry script instead of duplicating it
+* Tweak: Add image upload notice
+* Tweak: Add option to allow users to hide profiles from member page
+* Tweak: Add filters to modify output field
+* Tweak: Add filter hook for email template path
+* Tweak: Tweak upload form styles
+* Tweak: Remove masonry from core and gulp
+* Tweak: Add admin assets and apply minification
+* Tweak: Update pickadate assets
+* Tweak: Allowing usertags in search filters
+* Tweak: Allow members template to be customized/overridden
+* Tweak: Option to login user after clicking the activation link
+* Tweak: Remove bio count strings
+* Fixed: bio limit javascript error
+* Fixed: ssl checker for load balancers
+* Fixed: redirect loop with wpml permalink
+* Fixed: WPML permalink and form compatibility
+* Fixed: blocked words
+* Fixed: searching with space
+* Fixed: change password
+* Fixed: members grid override
+* Fixed: tipsy.js error
+* Fixed: Plugin conflict causing account page displaying wrong info
+* Fixed: email locale tempalte path
+* Fixed: invalid role
+* Fixed: validation for change password
+* Fixed: unchecked access roles
+* Fixed: telno input styles
+* Fixed: escape display name in title attributes
+* Fixed: datepicker css issue with some themes
+* Fixed: make sure the hash parameter is a string
+* Fixed: loading core assets
+* Fixed: title tags not updated
+* Fixed: empty uneditable fields
+* Fixed: account deletion on one submission
+* Fixed: Fixed indentation
+* Fixed: user_login fallbacks and remove email address
+* Fixed: password changed email template
+
+= 1.3.36: January 6, 2016 =
+
+* New: added in-page content restriction to protect content for logged-in or logged out users
+* New: added community role field to user creation in backend
+* New: added community role field to user editing in backend
+* New: show specific users in members directory
+* New: added a new field type: Number
+* New: added filter hooks to specific profile fields
+* New: added custom admin bulk actions support
+* New: added usermeta support to content locking feature in-page
+* Tweak: several tweaks in core to be more WordPress native
+* Tweak: added fallback for page setup selections
+* Tweak: automatic clickable links in profile header bio
+* Tweak: trim long field labels in backend fields modal
+* Fixed: profile page SEO title
+* Fixed: multi-site redirect support
+* Fixed: activation hash comparison
+* Fixed: page setup fallback field
+* Fixed: prevents php warnings and notices
+* Fixed: WP-CLI and cronjobs issues
+* Fixed: category posts restriction and redirection
+* Fixed: category access settings
+* Fixed: activation link
+
+= 1.3.35: December 15, 2015 =
+
+* Fixed: registration/login issues resolved
+
+= 1.3.34: December 15, 2015 =
+
+* New: new privacy option for fields: allow profile owner & specific roles to view the field
+* Fixed: wrong php syntax in admin notice
+
+= 1.3.33: December 15, 2015 =
+
+* Fixed: Member search on homepage
+* Fixed: emoticons support
+* Fixed: redux notices, css styles in admin
+* Fixed: users not being deleted
+
+= 1.3.32: December 10, 2015 =
+
+* Fixed: array format and notices
+* Fixed: users search, delete confirmation and role filter
+* Fixed: unique key field validation
+
+= 1.3.31: December 9, 2015 =
+
+* Fixed: Add slash in base url filter for multisite
+* Fixed: manage user roles, status and filters
+* Fixed: Enable WPML support to all UM url/links
+* Fixed: Sanitize referers and printing notices in admin screens
+
+= 1.3.30: December 3, 2015 =
+
+* New: added Simplified Chinese language support
+* Tweak: added many new filters (for developers)
+* Fixed: Display name update in profile
+* Fixed: Photo upload unique IDs
+* Fixed: Remove duplicated method um_convert_tags
 
 = 1.3.29: October 31, 2015 =
 

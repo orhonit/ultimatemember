@@ -3,11 +3,11 @@
 Plugin Name: Ultimate Member
 Plugin URI: http://ultimatemember.com/
 Description: The easiest way to create powerful online communities and beautiful user profiles with WordPress
-Version: 1.3.29
+Version: 1.3.37
 Author: Ultimate Member
 Author URI: http://ultimatemember.com/
 */
-
+	defined('ABSPATH') || exit;
 	require_once(ABSPATH.'wp-admin/includes/plugin.php');
 	
 	$plugin_data = get_plugin_data( __FILE__ );
@@ -46,8 +46,8 @@ Author URI: http://ultimatemember.com/
 	***/
 	function ultimatemember_plugin_links( $links ) {
 	
-		$more_links[] = '<a href="http://ultimatemember.com/docs/">' . __('Docs','ultimatemember') . '</a>';
-		$more_links[] = '<a href="http://ultimatemember.com/forums/">' . __('Support','ultimatemember') . '</a>';
+		$more_links[] = '<a href="http://docs.ultimatemember.com/">' . __('Docs','ultimatemember') . '</a>';
+		$more_links[] = '<a href="https://ultimatemember.com/support-contact/">' . __('Support','ultimatemember') . '</a>';
 		$more_links[] = '<a href="'.admin_url().'admin.php?page=um_options">' . __('Settings','ultimatemember') . '</a>';
 		
 		$links = $more_links + $links;

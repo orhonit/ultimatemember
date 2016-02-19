@@ -63,11 +63,29 @@
 	add_action('um_access_category_settings','um_access_category_settings');
 	function um_access_category_settings() {
 		global $post, $wp_query, $ultimatemember;
-		if ( is_single() && get_the_category() ) {
-			$categories = get_the_category();
-			foreach( $categories as $cat ) {
-				$term_id = $cat->term_id;
+
+		if( is_front_page() || is_home() ){
+			return;
+		}
+
+		if ( is_single() || get_post_taxonomies( $post ) ) {
+		
+
+			$taxonomies = get_post_taxonomies( $post );
+			$categories_ids = array();
+			
+			foreach ($taxonomies as $key => $value) {
+				$term_list = wp_get_post_terms($post->ID, $value, array("fields" => "ids"));
+				foreach( $term_list  as $term_id ){
+					array_push( $categories_ids , $term_id);
+				}
+			}
+
+
+			foreach( $categories_ids as $term => $term_id ) {
+				
 				$opt = get_option("category_$term_id");
+				
 				if ( isset( $opt['_um_accessible'] ) ) {
 					switch( $opt['_um_accessible'] ) {
 						
@@ -79,7 +97,7 @@
 						case 1:
 							
 							if ( is_user_logged_in() )
-								$ultimatemember->access->redirect_handler = ( isset( $opt['_um_redirect'] ) ) ? $opt['_um_redirect'] : home_url();
+								$ultimatemember->access->redirect_handler = ( isset( $opt['_um_redirect'] ) ) ? $opt['_um_redirect'] : site_url();
 							
 							if ( !is_user_logged_in() )
 								$ultimatemember->access->allow_access = true;
@@ -88,14 +106,14 @@
 							
 						case 2:
 						
-							if ( !is_user_logged_in() )
-								$ultimatemember->access->redirect_handler = ( isset( $opt['_um_redirect'] ) ) ? $opt['_um_redirect'] : um_get_core_page('login');
+							if ( ! is_user_logged_in() )
+								$ultimatemember->access->redirect_handler = ( isset( $opt['_um_redirect'] ) && ! empty( $opt['_um_redirect']  ) ) ? $opt['_um_redirect'] : um_get_core_page('login');
 							
 							if ( is_user_logged_in() && isset( $opt['_um_roles'] ) && !empty( $opt['_um_roles'] ) ){
 								if ( !in_array( um_user('role'), $opt['_um_roles'] ) ) {
 									
 									if ( is_user_logged_in() )
-										$ultimatemember->access->redirect_handler = ( isset( $opt['_um_redirect'] ) ) ? $opt['_um_redirect'] : home_url();
+										$ultimatemember->access->redirect_handler = ( isset( $opt['_um_redirect'] ) ) ? $opt['_um_redirect'] : site_url();
 									
 									if ( !is_user_logged_in() )
 										$ultimatemember->access->redirect_handler =  um_get_core_page('login');
@@ -103,6 +121,11 @@
 							}
 							
 					}
+				}
+
+				if( is_archive() ){
+					$ultimatemember->access->allow_access = true;
+					$ultimatemember->access->redirect_handler = false; // open to everyone
 				}
 			}
 		}
@@ -114,26 +137,29 @@
 	add_action('um_access_post_settings','um_access_post_settings');
 	function um_access_post_settings() {
 		global $post, $ultimatemember;
-		
+
 		// woo commerce shop ID
 		if( function_exists('is_shop') && is_shop() ) {
 			
 			$post_id = get_option('woocommerce_shop_page_id');
-
-		} else if ( is_archive() || is_front_page() || is_search() || in_the_loop() ) {
+		
+		} else if ( is_archive() || is_front_page() || is_home() || is_search() || in_the_loop() ) {
 			
 			return;
 
 		} else {
-	
+		
 			if ( !get_post_type() || !isset($post->ID) ) return;
 
 		}
+
+		
 
 		if ( !isset( $post_id ) )
 			$post_id = $post->ID;
 
 		$args = $ultimatemember->access->get_meta( $post_id );
+		
 		extract($args);
 
 		if ( !isset( $args['custom_access_settings'] ) || $args['custom_access_settings'] == 0 ) {
@@ -158,6 +184,7 @@
 			case 0:	
 				$ultimatemember->access->allow_access = true;
 				$ultimatemember->access->redirect_handler = false; // open to everyone
+
 				break;
 			
 			case 1:
@@ -181,7 +208,7 @@
 					if ( !in_array( um_user('role'), unserialize( $access_roles ) ) ) {
 						if ( !$access_redirect ) {
 							if ( is_user_logged_in() ) {
-								$access_redirect = home_url();
+								$access_redirect = site_url();
 							} else {
 								$access_redirect = um_get_core_page('login');
 							}
@@ -202,5 +229,5 @@
 				$ultimatemember->access->redirect_handler = $redirect_to;
 			}
 		}
-		
+
 	}
